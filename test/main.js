@@ -27,7 +27,9 @@ const runTests = async () => {
 
         // テストケース
         const testCases = [
-            { input: "48C7C10A00000048C7C3030000004801D94889C8", expected: "d", desc: "Complex calculation" }
+            { input: "48C7C10A00000048C7C3030000004801D94889C8", expected: "d", desc: "Complex calculation" },
+            { input: "4831c0480580f0fa02482dd416c601", expected: "134d9ac", desc: "Complex calculation"},
+            { input: "4831c048c7c30500000048c7c1030000004801d84801c8", expected: "8", desc: "Complex calculation"}
         ];
 
         let allPassed = true;
@@ -36,7 +38,7 @@ const runTests = async () => {
             try {
                 console.log(`Running test ${index + 1} (${test.desc})...`);
                 const result = globalThis.RunCode(test.input);
-                console.log(`Result: ${result}`);
+                console.log(`Result: 0x${result}`);
                 console.log("-------");
 
                 // エラーチェック
