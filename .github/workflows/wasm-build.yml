@@ -15,7 +15,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.24'
 
       - name: Download Go dependencies
         run: go mod download
@@ -24,7 +24,13 @@ jobs:
         run: GOOS=js GOARCH=wasm go build -o main.wasm wasm.go
 
       - name: Copy wasm_exec.js
-        run: cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" test/
+        run: |
+          WASM_EXEC=$(go run -mod=readonly -tags=tools -toolexec=echo get 2>&1 | grep -o '/.*wasm_exec.js' || echo "$(go env GOROOT)/misc/wasm/wasm_exec.js")
+          if [ ! -f "$WASM_EXEC" ]; then
+            curl -o test/wasm_exec.js https://raw.githubusercontent.com/golang/go/go1.23.0/misc/wasm/wasm_exec.js
+          else
+            cp "$WASM_EXEC" test/
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -40,8 +46,15 @@ jobs:
         
       - name: Copy WASM to build directory
         if: success()
-        run: cp main.wasm build/ && cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" build/
-        
+        run: |
+          cp main.wasm build/
+          WASM_EXEC=$(go run -mod=readonly -tags=tools -toolexec=echo get 2>&1 | grep -o '/.*wasm_exec.js' || echo "$(go env GOROOT)/misc/wasm/wasm_exec.js")
+          if [ ! -f "$WASM_EXEC" ]; then
+            curl -o build/wasm_exec.js https://raw.githubusercontent.com/golang/go/go1.23.0/misc/wasm/wasm_exec.js
+          else
+            cp "$WASM_EXEC" build/
+          fi
+
       - name: Upload build artifacts
         if: success()
         uses: actions/upload-artifact@v4
