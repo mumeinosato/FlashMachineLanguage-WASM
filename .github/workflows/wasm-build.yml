@@ -18,13 +18,13 @@ jobs:
           go-version: '1.21'
 
       - name: Download Go dependencies
-        run: cd backend && go mod download
+        run: go mod download
 
       - name: Build
-        run: cd backend && GOOS=js GOARCH=wasm go build -o main.wasm wasm.go
+        run: GOOS=js GOARCH=wasm go build -o main.wasm wasm.go
 
       - name: Copy wasm_exec.js
-        run: cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" backend/test/
+        run: cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" test/
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -32,7 +32,7 @@ jobs:
           node-version: '20'
           
       - name: Run tests
-        run: cd backend/test && node main.js
+        run: cd test && node main.js
         
       - name: Create build directory
         if: success()
@@ -40,7 +40,7 @@ jobs:
         
       - name: Copy WASM to build directory
         if: success()
-        run: cp backend/main.wasm build/ && cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" build/
+        run: cp main.wasm build/ && cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" build/
         
       - name: Upload build artifacts
         if: success()
