@@ -1,3 +1,6 @@
+//go:build !wasm
+// +build !wasm
+
 package main
 
 import (
@@ -37,4 +40,5 @@ func main() {
 	fmt.Printf("\n=== Execution Result ===\n")
 	fmt.Printf("RAX=%d, RBX=%d, RCX=%d, RDX=%d\n", cpu.GetRegister(emulator.RAX), cpu.GetRegister(emulator.RBX), cpu.GetRegister(emulator.RCX), cpu.GetRegister(emulator.RDX))
 	fmt.Printf("Final result (int32): %d\n", cpu.GetResult())
+	fmt.Printf("Final result (int32): %x\n", int32(cpu.GetResult()))
 }
