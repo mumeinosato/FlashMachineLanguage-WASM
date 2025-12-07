@@ -34,7 +34,10 @@ const runTests = async () => {
 
         for (const [index, test] of testCases.entries()) {
             try {
+                console.log(`Running test ${index + 1} (${test.desc})...`);
                 const result = globalThis.RunCode(test.input);
+                console.log(`Result: ${result}`);
+                console.log("-------");
 
                 // エラーチェック
                 if (typeof result === 'object' && result.error) {
