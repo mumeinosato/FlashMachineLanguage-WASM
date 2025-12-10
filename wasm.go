@@ -5,6 +5,7 @@ package main
 
 import (
 	"backend/emulator"
+	"backend/genhex"
 	"fmt"
 	"syscall/js"
 )
