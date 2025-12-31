@@ -69,5 +69,9 @@ func genMachineLanguage(this js.Value, args []js.Value) interface{} {
 		return map[string]interface{}{"error": fmt.Sprintf("error generating hex: %v", err)}
 	}
 
-	return []interface{}{spaceHex, noSpaceHex}
+	//return []interface{}{spaceHex, noSpaceHex}
+
+	return map[string]interface{}{
+		"value": []interface{}{spaceHex, noSpaceHex},
+	}
 }
