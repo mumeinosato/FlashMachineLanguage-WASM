@@ -45,7 +45,7 @@ const runTests = async () => {
                     continue;
                 }
 
-                const passed = result === test.expected;
+                const passed = result.value === test.expected;
 
                 if (passed) {
                     console.log(`✅ Test ${index + 1} (${test.desc}): PASS - got ${result}`);

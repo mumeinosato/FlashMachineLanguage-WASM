@@ -50,7 +50,11 @@ func run(this js.Value, args []js.Value) interface{} {
 		}
 	}
 
-	return fmt.Sprintf("%x", int32(cpu.GetResult()))
+	//return fmt.Sprintf("%x", int32(cpu.GetResult()))
+
+	return map[string]interface{}{
+		"value": fmt.Sprintf("%x", int32(cpu.GetResult())),
+	}
 }
 
 func genMachineLanguage(this js.Value, args []js.Value) interface{} {
